@@ -1,0 +1,128 @@
+# pro
+
+// TRABALHO FABRICIO A3 
+// O PROGRAMA É UN SISTEMA DE GERENCIAMENTO DE LIVROS DE UMA BIBLIOTECA . O USUARIO PODE CADASTRAR LIVROS 
+// VIZUALIZAR LIVROS CADASTRADOS , REALIZAR EMPRESTIMOS DE LIVROS E DEVOLVER LIVROS.
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+Class Livro { // Classe Livro
+    private String titulo;// Aqui vai indicar o nome (titulo) do livro.
+    private String autor;// Aqui vai indicar o nome do autor no caso quem escreveu o livro.
+    private int ano;// Aqui vai indicar o ano. ( Já está sendo declarada a variavel,
+    private boolean emprestado;// Aqui vai indicar se o livro está emprestado ou não ( aqui a lógica do boolean é sim ou não , verdadeiro ou falso).
+
+Public Livro(String titulo ,String autor,int ano){
+this.titulo = titulo;
+this.autor = autor;
+this.ano = ano;
+this.emprestado = false;
+}
+
+public String getTitulo(){
+   return titulo;
+}
+public String getAutor(){
+   return autor;
+}
+public int getAno(){
+   return ano;
+}
+public boolean isEmprestado(){
+   return emprestado;
+}
+public void setEmprestado(boolean emprestado) {
+this.emprestado = emprestado;
+}
+}
+
+class Biblioteca(){
+private List<Livro> livros;
+
+public Biblioteca(){
+}
+
+public void cadastrarLivro (Livro livro){
+ livros .add(livro);
+}
+
+public List<Livro>getLivros(){ 
+    return livros;
+}
+
+public void devolverLivro(Livro livro){
+livro.setEmprestado(false);
+}
+}
+
+public class Main {
+   public static void  main(String [] args){
+   Biblioteca biblioteca = new Biblioteca();
+   Scanner scanner = new Scanner(System.in);
+
+   while (true){
+
+   System.out.println("     MENU     ");
+   System.out.println("[1] CADASTRAR LIVRO ");
+   System.out.println("[2] VISUALIZAR LIVROS ");
+   System.out.println("[3] EMPRESTAR LIVRO ");
+   System.out.println("[4] DEVOLVER LIVRO ");
+   System.out.println("[5] SAIR ");
+
+   int opção = scanner.nextInt();
+   scanner.nextLine();
+
+   switch (opção){
+
+   case 1:
+   Sytem.out.println(" INFORME O TITULO DO LIVRO : ");
+   String titulo =scanner.nextLine();
+   System.out.println(" INFORME O AUTOR DO LIVRO : ");
+   String.out.println(" INFORME O ANO DO LIVRO : ");
+   int ano = scanner.nextLine();
+
+   Livro livro = new Livro (titulo, autor , ano);
+   biblioteca.cadastrarLivro(livro);
+   break;
+
+   case 2:
+   System.out.println("LIVROS CADASTRADOS : ");
+   for(Livro 1 : biblioteca.getLivros()){
+   System.out.println(1.getTitulol() + "-" + 1.getAutor() + "-" + 1.getAno());
+   }
+   break;
+
+   case 3:
+
+    System.out.println("INFORME O TITULO DO LIVRO QUE VOCÊ DESEJA EMPRESTAR : ")
+    String tituloEMprestar = scanner.nextLine();
+    for( Livro 1: biblioteca.getLivros()){
+    if (1.getTitulo().equals(tituloEmprestar)){
+    System.out.println(" LIVRO EMPRESTADO COM SUCESSO !! :)");
+    break;
+    }
+    }
+
+    case 4:
+
+    System.out.println(" INFORME O TITULO DO LIVRO QUE VOCÊ DESEJA DEVOLVER :");
+    String tituloDevolver = scanner.nextLine();
+    for(Livro 1 : biblioteca.getLivros()){
+    if(1.getTitulo().equals(tituloDevolver)){
+    biblioteca.devolverLivro(1);
+    System.out.println(" LIVRO DEVOLVIDO COM SUCESSO!!);
+    break;
+    }
+    }
+break;
+    case 5:
+    System.out.println("SAINDO...");
+    return;
+
+    default:
+    System.out.println("OPÇÃO INVALIDA , TENTE NOVAMENTE :)");
+   }
+   }
+}
