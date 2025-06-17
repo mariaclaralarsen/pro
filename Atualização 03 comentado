@@ -63,6 +63,10 @@ class Livro {
  * Esta classe é responsável por armazenar, adicionar, emprestar e devolver livros.
  */
 class Biblioteca {
+//Métodos como cadastrarLivro(), emprestarLivro() e devolverLivro() são as únicas portas de entrada para interagir com a coleção de livros,
+//garantindo que as operações sejam feitas de forma segura e consistente.
+
+
     private List<Livro> livros; // Atributo privado que é uma lista de objetos Livro. Usa a interface List para maior flexibilidade.
 
     // Construtor da classe Biblioteca.
