@@ -1,0 +1,222 @@
+package estudos; // Declara o pacote onde as classes deste arquivo estão localizadas.
+
+import java.util.ArrayList; // Importa a classe ArrayList, que permite criar listas dinâmicas (que podem aumentar ou diminuir de tamanho).
+import java.util.List; // Importa a interface List, que representa uma coleção ordenada de elementos. ArrayList implementa List.
+import java.util.Scanner; // Importa a classe Scanner, usada para obter entrada de dados do usuário via console.
+
+/**
+ * Classe Livro representa um livro na biblioteca.
+ * Esta é uma classe POO, que encapsula os dados e comportamentos de um livro.
+ */
+class Livro {
+    private String titulo; // Atributo privado para armazenar o título do livro. 'private' significa que só pode ser acessado dentro desta classe.
+    private String autor;  // Atributo privado para armazenar o autor do livro.
+    private int ano;       // Atributo privado para armazenar o ano de publicação do livro.
+    private boolean emprestado; // Atributo privado para indicar se o livro está emprestado (true) ou disponível (false).
+
+    // Construtor da classe Livro. É chamado quando um novo objeto Livro é criado.
+    // Recebe título, autor e ano como parâmetros para inicializar o objeto.
+    public Livro(String titulo, String autor, int ano) {
+        this.titulo = titulo; // Atribui o valor do parâmetro 'titulo' ao atributo 'titulo' do objeto atual.
+        this.autor = autor;   // Atribui o valor do parâmetro 'autor' ao atributo 'autor' do objeto atual.
+        this.ano = ano;       // Atribui o valor do parâmetro 'ano' ao atributo 'ano' do objeto atual.
+        this.emprestado = false; // Inicializa o livro como não emprestado por padrão.
+    }
+
+    // Métodos "getters" (acessores) para permitir o acesso aos atributos privados de fora da classe.
+    public String getTitulo() {
+        return titulo; // Retorna o título do livro.
+    }
+
+    public String getAutor() {
+        return autor;   // Retorna o autor do livro.
+    }
+
+    public int getAno() {
+        return ano;     // Retorna o ano de publicação do livro.
+    }
+
+    public boolean isEmprestado() { // Método específico para atributos booleanos, geralmente começa com 'is'.
+        return emprestado; // Retorna o status de empréstimo do livro.
+    }
+
+    // Método "setter" (modificador) para permitir a alteração do status de emprestado de fora da classe.
+    public void setEmprestado(boolean emprestado) {
+        this.emprestado = emprestado; // Define o status de empréstimo do livro.
+    }
+
+    @Override // Anotação que indica que este método está sobrescrevendo um método da classe pai (Object).
+    public String toString() {
+        // Retorna uma representação em string do objeto Livro.
+        // Inclui título, autor, ano e, se estiver emprestado, adiciona "(EMPRESTADO)".
+        return titulo + " - " + autor + " - " + ano + (emprestado ? " (EMPRESTADO)" : "");
+    }
+}
+
+/**
+ * Classe Biblioteca gerencia a coleção de livros.
+ * Esta classe é responsável por armazenar, adicionar, emprestar e devolver livros.
+ */
+class Biblioteca {
+    private List<Livro> livros; // Atributo privado que é uma lista de objetos Livro. Usa a interface List para maior flexibilidade.
+
+    // Construtor da classe Biblioteca.
+    public Biblioteca() {
+        this.livros = new ArrayList<>(); // Inicializa a lista de livros como um novo ArrayList vazio.
+    }
+
+    // Método para cadastrar um novo livro na biblioteca.
+    public void cadastrarLivro(Livro livro) {
+        this.livros.add(livro); // Adiciona o objeto Livro fornecido à lista de livros.
+        System.out.println("Livro '" + livro.getTitulo() + "' cadastrado com sucesso!"); // Confirma o cadastro.
+    }
+
+    // Método "getter" para obter a lista de todos os livros cadastrados na biblioteca.
+    public List<Livro> getLivros() {
+        return this.livros; // Retorna a lista de livros.
+    }
+
+    /**
+     * Tenta emprestar um livro pelo título.
+     * @param titulo O título do livro a ser emprestado.
+     * @return true se o livro foi emprestado com sucesso, false caso contrário.
+     */
+    public boolean emprestarLivro(String titulo) {
+        // Percorre cada livro na lista de livros.
+        for (Livro l : livros) {
+            // Compara o título do livro (ignorando maiúsculas/minúsculas) com o título fornecido.
+            if (l.getTitulo().equalsIgnoreCase(titulo)) {
+                if (!l.isEmprestado()) { // Verifica se o livro NÃO está emprestado.
+                    l.setEmprestado(true); // Se não estiver emprestado, define o status como emprestado.
+                    System.out.println("Livro '" + l.getTitulo() + "' emprestado com sucesso! :)"); // Mensagem de sucesso.
+                    return true; // Retorna true indicando que o empréstimo foi bem-sucedido.
+                } else {
+                    System.out.println("Este livro '" + l.getTitulo() + "' já está emprestado."); // Mensagem se o livro já estiver emprestado.
+                    return false; // Retorna false.
+                }
+            }
+        }
+        System.out.println("Livro com o título '" + titulo + "' não encontrado."); // Mensagem se o livro não for encontrado.
+        return false; // Retorna false.
+    }
+
+    /**
+     * Tenta devolver um livro pelo título.
+     * @param titulo O título do livro a ser devolvido.
+     * @return true se o livro foi devolvido com sucesso, false caso contrário.
+     */
+    public boolean devolverLivro(String titulo) {
+        // Percorre cada livro na lista de livros.
+        for (Livro l : livros) {
+            // Compara o título do livro (ignorando maiúsculas/minúsculas) com o título fornecido.
+            if (l.getTitulo().equalsIgnoreCase(titulo)) {
+                if (l.isEmprestado()) { // Verifica se o livro está emprestado.
+                    l.setEmprestado(false); // Se estiver emprestado, define o status como disponível.
+                    System.out.println("Livro '" + l.getTitulo() + "' devolvido com sucesso! :)"); // Mensagem de sucesso.
+                    return true; // Retorna true indicando que a devolução foi bem-sucedida.
+                } else {
+                    System.out.println("Este livro '" + l.getTitulo() + "' já está disponível."); // Mensagem se o livro já estiver disponível.
+                    return false; // Retorna false.
+                }
+            }
+        }
+        System.out.println("Livro com o título '" + titulo + "' não encontrado."); // Mensagem se o livro não for encontrado.
+        return false; // Retorna false.
+    }
+}
+
+/**
+ * Classe principal que executa o sistema de gerenciamento de livros.
+ * Contém o método 'main', que é o ponto de entrada da aplicação Java.
+ */
+public class FabricioLibrarySystem { // A classe principal deve ser pública e ter o mesmo nome do arquivo .java.
+    public static void main(String[] args) { // Método principal onde a execução do programa começa.
+        Biblioteca biblioteca = new Biblioteca(); // Cria uma nova instância da classe Biblioteca.
+        Scanner scanner = new Scanner(System.in); // Cria um novo objeto Scanner para ler a entrada do usuário.
+
+        // Adicionando alguns livros de exemplo para facilitar o teste inicial do sistema.
+        biblioteca.cadastrarLivro(new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1954)); // Cria e cadastra um Livro.
+        biblioteca.cadastrarLivro(new Livro("1984", "George Orwell", 1949));            // Cria e cadastra outro Livro.
+        biblioteca.cadastrarLivro(new Livro("Orgulho e Preconceito", "Jane Austen", 1813)); // Cria e cadastra mais um Livro.
+
+        while (true) { // Inicia um loop infinito para manter o menu ativo até que o usuário escolha sair.
+            System.out.println("\n--- MENU DA BIBLIOTECA ---"); // Exibe o cabeçalho do menu.
+            System.out.println("[1] CADASTRAR LIVRO");    // Opção 1.
+            System.out.println("[2] VISUALIZAR LIVROS");  // Opção 2.
+            System.out.println("[3] EMPRESTAR LIVRO");    // Opção 3.
+            System.out.println("[4] DEVOLVER LIVRO");     // Opção 4.
+            System.out.println("[5] SAIR");               // Opção 5.
+            System.out.print("Escolha uma opção: ");     // Pede ao usuário para escolher uma opção.
+
+            int opcao; // Declara uma variável para armazenar a opção do usuário.
+            try {
+                opcao = scanner.nextInt(); // Tenta ler um número inteiro digitado pelo usuário.
+            } catch (java.util.InputMismatchException e) { // Captura a exceção se o usuário digitar algo que não seja um número.
+                System.out.println("Entrada inválida. Por favor, digite um número."); // Mensagem de erro.
+                scanner.nextLine(); // Consome a linha inválida para evitar problemas na próxima leitura.
+                continue; // Volta para o início do loop 'while' para exibir o menu novamente.
+            }
+            scanner.nextLine(); // Consome a quebra de linha pendente após 'nextInt()', essencial para 'nextLine()' funcionar corretamente depois.
+
+            switch (opcao) { // Usa uma estrutura switch para executar ações baseadas na opção escolhida.
+                case 1:
+                    System.out.println("\n--- CADASTRAR NOVO LIVRO ---"); // Cabeçalho para cadastro.
+                    System.out.print("Informe o TÍTULO do livro: "); // Pede o título.
+                    String titulo = scanner.nextLine();             // Lê o título.
+                    System.out.print("Informe o AUTOR do livro: ");  // Pede o autor.
+                    String autor = scanner.nextLine();              // Lê o autor.
+                    int ano = 0; // Inicializa a variável 'ano'.
+                    boolean anoValido = false; // Flag para controlar a validação do ano.
+                    while (!anoValido) { // Loop para garantir que um ano válido seja inserido.
+                        System.out.print("Informe o ANO do livro: "); // Pede o ano.
+                        try {
+                            ano = scanner.nextInt(); // Tenta ler o ano.
+                            scanner.nextLine(); // Consome a quebra de linha.
+                            anoValido = true; // Se a leitura for bem-sucedida, o ano é válido.
+                        } catch (java.util.InputMismatchException e) { // Captura exceção se o ano não for um número.
+                            System.out.println("Ano inválido. Por favor, digite um número inteiro."); // Mensagem de erro.
+                            scanner.nextLine(); // Consome a entrada inválida.
+                        }
+                    }
+
+                    Livro novoLivro = new Livro(titulo, autor, ano); // Cria um novo objeto Livro com os dados fornecidos.
+                    biblioteca.cadastrarLivro(novoLivro); // Cadastra o novo livro na biblioteca.
+                    break; // Sai do switch.
+
+                case 2:
+                    System.out.println("\n--- LIVROS CADASTRADOS ---"); // Cabeçalho para visualização.
+                    List<Livro> livrosCadastrados = biblioteca.getLivros(); // Obtém a lista de livros da biblioteca.
+                    if (livrosCadastrados.isEmpty()) { // Verifica se a lista de livros está vazia.
+                        System.out.println("Nenhum livro cadastrado ainda."); // Mensagem se não houver livros.
+                    } else {
+                        for (Livro l : livrosCadastrados) { // Itera sobre cada livro na lista.
+                            System.out.println(l); // Imprime o livro, usando o método toString() sobrescrito da classe Livro.
+                        }
+                    }
+                    break; // Sai do switch.
+
+                case 3:
+                    System.out.println("\n--- EMPRESTAR LIVRO ---"); // Cabeçalho para empréstimo.
+                    System.out.print("Informe o TÍTULO do livro que deseja emprestar: "); // Pede o título do livro a emprestar.
+                    String tituloEmprestar = scanner.nextLine(); // Lê o título.
+                    biblioteca.emprestarLivro(tituloEmprestar); // Tenta emprestar o livro.
+                    break; // Sai do switch.
+
+                case 4:
+                    System.out.println("\n--- DEVOLVER LIVRO ---"); // Cabeçalho para devolução.
+                    System.out.print("Informe o TÍTULO do livro que deseja devolver: "); // Pede o título do livro a devolver.
+                    String tituloDevolver = scanner.nextLine(); // Lê o título.
+                    biblioteca.devolverLivro(tituloDevolver); // Tenta devolver o livro.
+                    break; // Sai do switch.
+
+                case 5:
+                    System.out.println("Saindo do sistema. Até mais!"); // Mensagem de saída.
+                    scanner.close(); // Fecha o objeto Scanner para liberar recursos.
+                    return; // Sai do método main, encerrando o programa.
+
+                default: // Caso a opção digitada não seja nenhuma das opções válidas.
+                    System.out.println("OPÇÃO INVÁLIDA. Por favor, tente novamente com uma opção de 1 a 5."); // Mensagem de erro.
+            }
+        }
+    }
+}
