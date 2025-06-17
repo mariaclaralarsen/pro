@@ -11,8 +11,8 @@ import java.util.Scanner; // Importa a classe Scanner, usada para obter entrada 
 class Livro {
 
 //Quando você usa um objeto Livro, você interage com ele através de métodos como getTitulo() 
-ou setEmprestado(). Você não precisa se preocupar com os detalhes internos de como o título é armazenado na memória ou como o status de empréstimo é alterado
-. A classe Livro "abstrai" essa complexidade.
+//ou setEmprestado(). Você não precisa se preocupar com os detalhes internos de como o título é armazenado na memória ou como o status de empréstimo é alterado
+//. A classe Livro "abstrai" essa complexidade.
 
     private String titulo; // Atributo privado para armazenar o título do livro. 'private' significa que só pode ser acessado dentro desta classe.
     private String autor;  // Atributo privado para armazenar o autor do livro.
